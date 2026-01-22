@@ -1,7 +1,7 @@
+import { otherSprites, scale } from "../utils/constants";
 import { drawBackground } from "./draw/drawBackground";
 import { drawPlayer } from "./draw/drawPlayer";
 import { updateViewport } from "./viewport/updateViewport";
-import { otherSprites, scale } from "../engine/runGame";
 
 export class CanvasDisplay {
   constructor(parent, level) {

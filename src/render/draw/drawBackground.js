@@ -1,4 +1,4 @@
-import { otherSprites, scale } from "../../engine/runGame";
+import { otherSprites, scale } from "../../utils/constants";
 
 export function drawBackground(level) {
   let { left, top, width, height } = this.viewport;

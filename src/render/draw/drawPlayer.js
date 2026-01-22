@@ -1,4 +1,4 @@
-import { playerSprites, playerXOverlap } from "../../engine/runGame";
+import { playerSprites, playerXOverlap } from "../../utils/constants";
 import { flipHorizontally } from "../../utils/flipHorizontally";
 
 export function drawPlayer(player, x, y, width, height) {

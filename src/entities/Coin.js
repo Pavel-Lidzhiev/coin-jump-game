@@ -1,6 +1,6 @@
-import { wobbleDist, wobbleSpeed } from "../engine/runGame";
 import { State } from "../core/State";
 import { Vec } from "../core/Vec";
+import { wobbleDist, wobbleSpeed } from "../utils/constants";
 
 export class Coin {
   constructor(pos, basePos, wobble) {

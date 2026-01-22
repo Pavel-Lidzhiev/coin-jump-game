@@ -1,6 +1,6 @@
 import { Vec } from "../core/Vec";
 import { touches } from "../engine/touches";
-import { levelChars } from "../engine/runGame";
+import { levelChars } from "../utils/constants";
 
 export class Level {
   constructor(plan) {

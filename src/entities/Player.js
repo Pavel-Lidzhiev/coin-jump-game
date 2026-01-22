@@ -1,5 +1,5 @@
-import { gravity, jumpSpeed, playerXSpeed } from "../engine/runGame";
 import { Vec } from "../core/Vec";
+import { gravity, jumpSpeed, playerXSpeed } from "../utils/constants";
 
 export class Player {
   constructor(pos, speed) {

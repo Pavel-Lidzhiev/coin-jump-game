@@ -1,6 +1,6 @@
 import { State } from "../core/State";
-import { arrowKeys } from "./runGame";
 import { runAnimation } from "../core/runAnimation";
+import { arrowKeys } from "../utils/constants";
 
 export function runLevel(level, Display) {
   let display = new Display(document.body, level);

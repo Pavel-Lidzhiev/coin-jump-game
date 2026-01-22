@@ -1,5 +1,5 @@
+import { scale } from "../../utils/constants";
 import elt from "../createElement";
-import { scale } from "../../engine/runGame";
 
 export function drawActors(actors) {
   return elt(
