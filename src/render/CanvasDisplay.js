@@ -6,12 +6,22 @@ import { updateViewport } from "./viewport/updateViewport";
 export class CanvasDisplay {
   constructor(parent, level) {
     this.canvas = document.createElement("canvas");
-    this.canvas.width = Math.min(600, level.width * scale);
-    this.canvas.height = Math.min(450, level.height * scale);
-    parent.appendChild(this.canvas);
     this.cx = this.canvas.getContext("2d");
 
     this.flipPlayer = false;
+
+    parent.appendChild(this.canvas);
+
+    // убираем отступы
+    this.canvas.style.display = "block";
+    document.body.style.margin = "0";
+
+    // начальный ресайз
+    this.resize();
+
+    // обработчик изменения окна
+    this._resizeHandler = () => this.resize();
+    window.addEventListener("resize", this._resizeHandler);
 
     this.viewport = {
       left: 0,
@@ -21,7 +31,18 @@ export class CanvasDisplay {
     };
   }
 
+  resize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+
+    if (this.viewport) {
+      this.viewport.width = this.canvas.width / scale;
+      this.viewport.height = this.canvas.height / scale;
+    }
+  }
+
   clear() {
+    window.removeEventListener("resize", this._resizeHandler);
     this.canvas.remove();
   }
 }
@@ -32,6 +53,7 @@ CanvasDisplay.prototype.drawActors = function (actors) {
     let height = actor.size.y * scale;
     let x = (actor.pos.x - this.viewport.left) * scale;
     let y = (actor.pos.y - this.viewport.top) * scale;
+
     if (actor.type === "player") {
       this.drawPlayer(actor, x, y, width, height);
     } else {
@@ -59,6 +81,7 @@ CanvasDisplay.prototype.clearDisplay = function (status) {
   } else {
     this.cx.fillStyle = "rgb(52, 166, 251)";
   }
+
   this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
