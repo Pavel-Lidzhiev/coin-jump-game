@@ -8,14 +8,13 @@ export function drawBackground(level) {
   let yStart = Math.floor(top);
   let yEnd = Math.ceil(top + height);
 
-  // 🔥 защита от выхода за границы уровня
   xEnd = Math.min(xEnd, level.width);
   yEnd = Math.min(yEnd, level.height);
 
   for (let y = yStart; y < yEnd; y++) {
     for (let x = xStart; x < xEnd; x++) {
       let row = level.rows[y];
-      if (!row) continue; // дополнительная защита
+      if (!row) continue;
 
       let tile = row[x];
       if (!tile || tile === "empty") continue;

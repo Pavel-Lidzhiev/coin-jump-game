@@ -12,14 +12,11 @@ export class CanvasDisplay {
 
     parent.appendChild(this.canvas);
 
-    // убираем отступы
     this.canvas.style.display = "block";
     document.body.style.margin = "0";
 
-    // начальный ресайз
     this.resize();
 
-    // обработчик изменения окна
     this._resizeHandler = () => this.resize();
     window.addEventListener("resize", this._resizeHandler);
 
