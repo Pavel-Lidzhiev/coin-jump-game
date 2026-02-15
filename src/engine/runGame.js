@@ -2,11 +2,26 @@ import { Level } from "../level/Level";
 import { CanvasDisplay } from "../render/CanvasDisplay";
 import { runLevel } from "./runLevel";
 
-export async function runGame(plans, Display) {
+export async function runGame(plans, Display, addCoin, hudRef) {
   for (let level = 0; level < plans.length; ) {
-    let status = await runLevel(new Level(plans[level]), Display);
-    if (status === "won") level++;
+    const addCoinCallback = () => {
+      if (addCoin) addCoin();
+    };
+
+    let status = await runLevel(
+      new Level(plans[level]),
+      Display,
+      addCoinCallback,
+    );
+
+    if (status === "won") {
+      hudRef?.current?.saveLevelCoins();
+      level++;
+    } else if (status === "lost") {
+      hudRef?.current?.resetLevelCoins();
+    }
   }
+
   console.log("Ты победил!");
 }
 

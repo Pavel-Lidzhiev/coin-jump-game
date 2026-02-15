@@ -19,10 +19,13 @@ export class Coin {
   }
 }
 
-Coin.prototype.collide = function (state) {
-  let filtered = state.actors.filter((a) => a !== this);
+Coin.prototype.collide = function (state, onCollect) {
+  const filtered = state.actors.filter((a) => a !== this);
   let status = state.status;
   if (!filtered.some((a) => a.type === "coin")) status = "won";
+
+  if (onCollect) onCollect(); // увеличиваем HUD
+
   return new State(state.level, filtered, status);
 };
 

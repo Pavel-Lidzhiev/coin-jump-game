@@ -16,7 +16,7 @@ export class State {
   }
 }
 
-State.prototype.update = function (time, keys) {
+State.prototype.update = function (time, keys, addCoin) {
   let actors = this.actors.map((actor) => actor.update(time, this, keys));
   let newState = new State(this.level, actors, this.status);
 
@@ -29,7 +29,7 @@ State.prototype.update = function (time, keys) {
 
   for (let actor of actors) {
     if (actor !== player && overlap(actor, player)) {
-      newState = actor.collide(newState);
+      newState = actor.collide(newState, addCoin);
     }
   }
   return newState;
