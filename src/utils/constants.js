@@ -29,7 +29,12 @@ export const wobbleSpeed = 8,
 export const playerXSpeed = 7;
 export const gravity = 30;
 export const jumpSpeed = 17;
-export const arrowKeys = trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
+export const arrowKeys = trackKeys([
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowUp",
+  "ArrowDown",
+]);
 
 export const otherSprites = document.createElement("img");
 otherSprites.src = "/sprites.png";

@@ -1,18 +1,27 @@
-import { playerSprites, playerXOverlap } from "../../utils/constants";
+import { playerSprites, playerXOverlap, scale } from "../../utils/constants";
 import { flipHorizontally } from "../../utils/flipHorizontally";
 
 export function drawPlayer(player, x, y, width, height) {
   width += playerXOverlap * 2;
   x -= playerXOverlap;
+
   if (player.speed.x !== 0) {
     this.flipPlayer = player.speed.x < 0;
   }
 
   let tile = 8;
   if (player.speed.y !== 0) {
-    tile = 9;
+    tile = 9; // прыжок
   } else if (player.speed.x !== 0) {
-    tile = Math.floor(Date.now() / 60) % 8;
+    tile = Math.floor(Date.now() / 60) % 8; // бег
+  }
+
+  // 🌟 Приседание: меняем высоту спрайта
+  let drawHeight = height;
+  let drawY = y;
+  if (player.crouching) {
+    drawHeight = scale; // высота одного блока
+    drawY = y + (height - drawHeight); // сдвигаем вниз, чтобы низ оставался на месте
   }
 
   this.cx.save();
@@ -28,9 +37,9 @@ export function drawPlayer(player, x, y, width, height) {
     width,
     height,
     x,
-    y,
+    drawY,
     width,
-    height,
+    drawHeight,
   );
   this.cx.restore();
 }
