@@ -2,10 +2,12 @@ import { Vec } from "../core/Vec";
 import { gravity, jumpSpeed, playerXSpeed } from "../utils/constants";
 
 export class Player {
-  constructor(pos, speed, size) {
+  constructor(pos, speed, size, lives = 3, invincibleTime = 0) {
     this.pos = pos;
     this.speed = speed;
     this.size = size;
+    this.lives = lives;
+    this.invincibleTime = invincibleTime;
   }
 
   get type() {
@@ -17,11 +19,15 @@ export class Player {
       pos.plus(new Vec(0, -0.5)),
       new Vec(0, 0),
       new Vec(0.8, 1.5),
+      3,
+      0,
     );
   }
 }
 
 Player.prototype.update = function (time, state, keys) {
+  let invincibleTime = Math.max(0, this.invincibleTime - time);
+
   let xSpeed = 0;
   if (keys.ArrowLeft) xSpeed -= playerXSpeed;
   if (keys.ArrowRight) xSpeed += playerXSpeed;
@@ -66,7 +72,21 @@ Player.prototype.update = function (time, state, keys) {
     ySpeed = 0;
   }
 
-  const newPlayer = new Player(pos, new Vec(xSpeed, ySpeed), size);
+  if (state.level.touches(pos, size) && invincibleTime <= 0) {
+    if (this.lives > 1) {
+      return new Player(pos, new Vec(xSpeed, ySpeed), size, this.lives - 1, 1);
+    } else {
+      return new Player(pos, new Vec(xSpeed, ySpeed), size, 0, 0);
+    }
+  }
+
+  const newPlayer = new Player(
+    pos,
+    new Vec(xSpeed, ySpeed),
+    size,
+    this.lives,
+    invincibleTime,
+  );
   newPlayer.crouching = size.y <= crouchHeight;
 
   return newPlayer;

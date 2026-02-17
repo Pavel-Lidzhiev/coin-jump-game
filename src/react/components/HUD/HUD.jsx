@@ -6,10 +6,9 @@ import React, {
 } from "react";
 import "./HUD.css";
 
-const HUD = forwardRef(({ coinsRef }, ref) => {
+const HUD = forwardRef(({ coinsRef, player }, ref) => {
   const [totalCoins, setTotalCoins] = useState(0);
   const [levelCoins, setLevelCoins] = useState(0);
-  const lives = 3;
 
   useEffect(() => {
     if (coinsRef) {
@@ -25,10 +24,12 @@ const HUD = forwardRef(({ coinsRef }, ref) => {
     resetLevelCoins: () => setLevelCoins(0),
   }));
 
+  const livesCount = player?.lives ?? 3;
+
   return (
     <div className="hud">
       <div className="lives">
-        {Array.from({ length: lives }).map((_, i) => (
+        {Array.from({ length: livesCount }).map((_, i) => (
           <span key={i}>❤️</span>
         ))}
       </div>

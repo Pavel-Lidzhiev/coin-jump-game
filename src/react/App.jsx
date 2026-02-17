@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import GameRunner from "./game/GameRunner";
 import HUD from "./components/HUD/HUD";
@@ -9,12 +9,18 @@ function App() {
   const addCoinRef = useRef(null);
   const hudRef = useRef(null);
 
+  const [player, setPlayer] = useState(null);
+
   return (
     <div className="App">
-      <HUD coinsRef={addCoinRef} ref={hudRef} />
+      <HUD coinsRef={addCoinRef} ref={hudRef} player={player} />
       <div className="table">
         <div className="game">
-          <GameRunner addCoin={addCoinRef} hudRef={hudRef} />
+          <GameRunner
+            addCoin={addCoinRef}
+            hudRef={hudRef}
+            setPlayer={setPlayer}
+          />
         </div>
       </div>
       <VirtualGamePad />

@@ -6,6 +6,7 @@ export class Lava {
     this.pos = pos;
     this.speed = speed;
     this.reset = reset;
+    this.size = new Vec(1, 1);
   }
 
   get type() {
@@ -13,18 +14,28 @@ export class Lava {
   }
 
   static create(pos, ch) {
-    if (ch === "=") {
-      return new Lava(pos, new Vec(2, 0));
-    } else if (ch === "|") {
-      return new Lava(pos, new Vec(0, 2));
-    } else if (ch === "v") {
-      return new Lava(pos, new Vec(0, 3), pos);
-    }
+    if (ch === "=") return new Lava(pos, new Vec(2, 0));
+    if (ch === "|") return new Lava(pos, new Vec(0, 2));
+    if (ch === "v") return new Lava(pos, new Vec(0, 3), pos);
   }
 }
 
 Lava.prototype.collide = function (state) {
-  return new State(state.level, state.actors, "lost");
+  const player = state.player;
+
+  if (player.invincibleTime > 0) return state;
+
+  if (player.lives > 1) {
+    const newActors = state.actors.map((a) => {
+      if (a.type === "player") {
+        return new a.constructor(a.pos, a.speed, a.size, a.lives - 1, 1);
+      }
+      return a;
+    });
+    return new State(state.level, newActors, "playing");
+  } else {
+    return new State(state.level, state.actors, "lost");
+  }
 };
 
 Lava.prototype.update = function (time, state) {

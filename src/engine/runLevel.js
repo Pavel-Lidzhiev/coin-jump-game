@@ -2,7 +2,7 @@ import { State } from "../core/State";
 import { runAnimation } from "../core/runAnimation";
 import { arrowKeys } from "../utils/constants";
 
-export function runLevel(level, Display, addCoin) {
+export function runLevel(level, Display, addCoin, setPlayer) {
   let display = new Display(document.body, level);
   let state = State.start(level);
   let ending = 1;
@@ -19,6 +19,9 @@ export function runLevel(level, Display, addCoin) {
       if (paused) return true;
 
       state = state.update(time, arrowKeys, addCoin);
+
+      if (setPlayer) setPlayer(state.player);
+
       display.syncState(state);
 
       if (state.status === "playing") return true;

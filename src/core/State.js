@@ -23,14 +23,34 @@ State.prototype.update = function (time, keys, addCoin) {
   if (newState.status !== "playing") return newState;
 
   let player = newState.player;
+
   if (this.level.touches(player.pos, player.size, "lava")) {
-    return new State(this.level, actors, "lost");
+    if (player.invincibleTime <= 0) {
+      if (player.lives > 1) {
+        actors = actors.map((a) => {
+          if (a.type === "player") {
+            return new a.constructor(a.pos, a.speed, a.size, a.lives - 1, 1);
+          }
+          return a;
+        });
+        newState = new State(this.level, actors, "playing");
+        player = newState.player;
+      } else {
+        return new State(this.level, actors, "lost");
+      }
+    }
   }
 
   for (let actor of actors) {
     if (actor !== player && overlap(actor, player)) {
-      newState = actor.collide(newState, addCoin);
+      if (actor.type === "lava" && typeof actor.collide === "function") {
+        newState = actor.collide(newState);
+      } else if (typeof actor.collide === "function") {
+        newState = actor.collide(newState, addCoin);
+      }
+      player = newState.player;
     }
   }
+
   return newState;
 };
