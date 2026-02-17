@@ -1,8 +1,9 @@
 import { useRef } from "react";
-import "../App.css";
-import GameRunner from "./GameRunner";
-import HUD from "./HUD";
-import VirtualGamePad from "./VirtualGamePad";
+import "./App.css";
+import GameRunner from "./game/GameRunner";
+import HUD from "./components/HUD/HUD";
+import VirtualGamePad from "./components/VirtualGamePad/VirtualGamePad";
+import PauseButton from "./components/PauseButton/PauseButton";
 
 function App() {
   const addCoinRef = useRef(null);
@@ -17,6 +18,7 @@ function App() {
         </div>
       </div>
       <VirtualGamePad />
+      <PauseButton />
     </div>
   );
 }

@@ -1,0 +1,40 @@
+.pause-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.pause-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  border: none;
+  font-size: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    background 0.1s ease;
+}
+
+.pause-btn:active {
+  transform: scale(0.95);
+}
+
+.pause-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+}

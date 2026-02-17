@@ -1,0 +1,68 @@
+.hud {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 24px;
+  z-index: 1000;
+  color: #fff;
+}
+
+.lives {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lives .heart {
+  margin-right: 5px;
+}
+
+.lives .heart-count {
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 #ccc,
+    -1px 1px 0 #ccc,
+    1px -1px 0 #ccc,
+    -1px -1px 0 #ccc;
+}
+
+.coins {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.coin-count {
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 #ccc,
+    -1px 1px 0 #ccc,
+    1px -1px 0 #ccc,
+    -1px -1px 0 #ccc;
+}
+
+.hud-controls {
+  display: flex;
+  gap: 5px;
+  margin-left: 20px;
+}
+
+.hud-controls button {
+  font-size: 14px;
+  padding: 2px 6px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: background-color 0.2s;
+}
+
+.hud-controls button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}

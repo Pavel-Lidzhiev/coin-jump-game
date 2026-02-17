@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { runGame } from "../engine/runGame";
-import { GAME_LEVELS } from "../level/levels";
+import { runGame } from "../../engine/runGame";
+import { GAME_LEVELS } from "../../level/levels";
 
 const GameRunner = ({ addCoin, hudRef }) => {
   useEffect(() => {
