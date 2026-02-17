@@ -2,6 +2,7 @@ import { useRef } from "react";
 import "../App.css";
 import GameRunner from "./GameRunner";
 import HUD from "./HUD";
+import VirtualGamePad from "./VirtualGamePad";
 
 function App() {
   const addCoinRef = useRef(null);
@@ -15,6 +16,7 @@ function App() {
           <GameRunner addCoin={addCoinRef} hudRef={hudRef} />
         </div>
       </div>
+      <VirtualGamePad />
     </div>
   );
 }
