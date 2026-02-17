@@ -4,13 +4,17 @@ import "./PauseButton.css";
 export default function PauseButton() {
   const [paused, setPaused] = useState(false);
 
-  const togglePause = () => {
+  const triggerSpace = () => {
     window.dispatchEvent(
       new KeyboardEvent("keydown", {
         code: "Space",
         key: " ",
       }),
     );
+  };
+
+  const handlePress = () => {
+    triggerSpace();
   };
 
   useEffect(() => {
@@ -26,13 +30,12 @@ export default function PauseButton() {
 
   return (
     <div className="pause-container">
-      <button
+      <div
         className={`pause-btn ${paused ? "active" : ""}`}
-        onMouseDown={togglePause}
-        onTouchStart={togglePause}
+        onPointerDown={handlePress}
       >
         {paused ? "▶" : "⏸"}
-      </button>
+      </div>
     </div>
   );
 }
