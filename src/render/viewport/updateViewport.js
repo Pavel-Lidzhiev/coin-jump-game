@@ -1,31 +1,34 @@
 export function updateViewport(state) {
   let view = this.viewport;
-  let margin = view.width / 3;
   let player = state.player;
+  let level = state.level;
   let center = player.pos.plus(player.size.times(0.5));
 
-  if (state.level.width < view.width) {
-    view.left = (state.level.width - view.width) / 2;
+  let marginX = view.width / 3;
+  let marginY = view.height / 3;
+
+  if (level.width <= view.width) {
+    view.left = (level.width - view.width) / 2;
   } else {
-    if (center.x < view.left + margin) {
-      view.left = Math.max(center.x - margin, 0);
-    } else if (center.x > view.left + view.width - margin) {
+    if (center.x < view.left + marginX) {
+      view.left = Math.max(center.x - marginX, 0);
+    } else if (center.x > view.left + view.width - marginX) {
       view.left = Math.min(
-        center.x + margin - view.width,
-        state.level.width - view.width,
+        center.x + marginX - view.width,
+        level.width - view.width,
       );
     }
   }
 
-  if (state.level.height < view.height) {
-    view.top = (state.level.height - view.height) / 2;
+  if (level.height <= view.height) {
+    view.top = (level.height - view.height) / 2;
   } else {
-    if (center.y < view.top + margin) {
-      view.top = Math.max(center.y - margin, 0);
-    } else if (center.y > view.top + view.height - margin) {
+    if (center.y < view.top + marginY) {
+      view.top = Math.max(center.y - marginY, 0);
+    } else if (center.y > view.top + view.height - marginY) {
       view.top = Math.min(
-        center.y + margin - view.height,
-        state.level.height - view.height,
+        center.y + marginY - view.height,
+        level.height - view.height,
       );
     }
   }
