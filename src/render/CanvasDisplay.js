@@ -29,13 +29,21 @@ export class CanvasDisplay {
   }
 
   resize() {
+    const gamePad = document.querySelector(".virtual-gamepad");
+    const bottomOffset = gamePad ? gamePad.offsetHeight + 10 : 0;
+
     this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.canvas.height = window.innerHeight - bottomOffset;
 
     if (this.viewport) {
       this.viewport.width = this.canvas.width / scale;
       this.viewport.height = this.canvas.height / scale;
     }
+
+    this.canvas.style.display = "block";
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = "0px";
+    this.canvas.style.left = "0px";
   }
 
   clear() {
