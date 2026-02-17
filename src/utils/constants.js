@@ -4,8 +4,6 @@ import { Coin } from "../entities/Coin";
 import { Lava } from "../entities/Lava";
 import { trackKeys } from "../input/trackKeys";
 
-Player.prototype.size = new Vec(0.8, 1.5);
-
 Lava.prototype.size = new Vec(1, 1);
 
 Coin.prototype.size = new Vec(0.6, 0.6);

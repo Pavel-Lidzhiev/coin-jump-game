@@ -11,35 +11,38 @@ export function drawPlayer(player, x, y, width, height) {
 
   let tile = 8;
   if (player.speed.y !== 0) {
-    tile = 9; // прыжок
+    tile = 9;
   } else if (player.speed.x !== 0) {
-    tile = Math.floor(Date.now() / 60) % 8; // бег
+    tile = Math.floor(Date.now() / 60) % 8;
   }
 
-  // 🌟 Приседание: меняем высоту спрайта
   let drawHeight = height;
   let drawY = y;
+
   if (player.crouching) {
-    drawHeight = scale; // высота одного блока
-    drawY = y + (height - drawHeight); // сдвигаем вниз, чтобы низ оставался на месте
+    const visualHeight = scale;
+    drawY = y + (height - visualHeight);
+    drawHeight = visualHeight;
   }
+
+  const sourceHeight = playerSprites.height;
+  const sourceY = 0;
 
   this.cx.save();
-  if (this.flipPlayer) {
-    flipHorizontally(this.cx, x + width / 2);
-  }
+  if (this.flipPlayer) flipHorizontally(this.cx, x + width / 2);
 
-  let tileX = tile * width;
+  const tileX = tile * width;
   this.cx.drawImage(
     playerSprites,
     tileX,
-    0,
+    sourceY,
     width,
-    height,
+    sourceHeight,
     x,
     drawY,
     width,
     drawHeight,
   );
+
   this.cx.restore();
 }

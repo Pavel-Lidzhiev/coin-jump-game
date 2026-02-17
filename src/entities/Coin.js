@@ -24,7 +24,7 @@ Coin.prototype.collide = function (state, onCollect) {
   let status = state.status;
   if (!filtered.some((a) => a.type === "coin")) status = "won";
 
-  if (onCollect) onCollect(); // увеличиваем HUD
+  if (onCollect) onCollect();
 
   return new State(state.level, filtered, status);
 };

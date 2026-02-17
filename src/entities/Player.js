@@ -2,9 +2,10 @@ import { Vec } from "../core/Vec";
 import { gravity, jumpSpeed, playerXSpeed } from "../utils/constants";
 
 export class Player {
-  constructor(pos, speed) {
+  constructor(pos, speed, size) {
     this.pos = pos;
     this.speed = speed;
+    this.size = size;
   }
 
   get type() {
@@ -12,7 +13,11 @@ export class Player {
   }
 
   static create(pos) {
-    return new Player(pos.plus(new Vec(0, -0.5)), new Vec(0, 0));
+    return new Player(
+      pos.plus(new Vec(0, -0.5)),
+      new Vec(0, 0),
+      new Vec(0.8, 1.5),
+    );
   }
 }
 
@@ -21,19 +26,39 @@ Player.prototype.update = function (time, state, keys) {
   if (keys.ArrowLeft) xSpeed -= playerXSpeed;
   if (keys.ArrowRight) xSpeed += playerXSpeed;
 
-  let crouching = !!keys.ArrowDown;
-  if (crouching) xSpeed *= 0.5;
+  const wantsCrouch = !!keys.ArrowDown;
+  if (wantsCrouch) xSpeed *= 0.5;
 
   let pos = this.pos;
+  let size = this.size;
 
-  // --- Горизонтальное движение ---
-  let movedX = pos.plus(new Vec(xSpeed * time, 0));
-  if (!state.level.touches(movedX, this.size, "wall")) pos = movedX;
+  const normalHeight = 1.5;
+  const crouchHeight = 0.5;
 
-  // --- Вертикальное движение ---
+  let targetHeight;
+  if (wantsCrouch) {
+    targetHeight = crouchHeight;
+  } else {
+    const bottom = pos.y + size.y;
+    const testSize = new Vec(size.x, normalHeight);
+    const testPos = new Vec(pos.x, bottom - normalHeight);
+    if (!state.level.touches(testPos, testSize, "wall")) {
+      targetHeight = normalHeight;
+    } else {
+      targetHeight = size.y;
+    }
+  }
+
+  const bottom = pos.y + size.y;
+  size = new Vec(size.x, targetHeight);
+  pos = new Vec(pos.x, bottom - size.y);
+
+  const movedX = pos.plus(new Vec(xSpeed * time, 0));
+  if (!state.level.touches(movedX, size, "wall")) pos = movedX;
+
   let ySpeed = this.speed.y + gravity * time;
-  let movedY = pos.plus(new Vec(0, ySpeed * time));
-  if (!state.level.touches(movedY, this.size, "wall")) {
+  const movedY = pos.plus(new Vec(0, ySpeed * time));
+  if (!state.level.touches(movedY, size, "wall")) {
     pos = movedY;
   } else if (keys.ArrowUp && ySpeed > 0) {
     ySpeed = -jumpSpeed;
@@ -41,25 +66,8 @@ Player.prototype.update = function (time, state, keys) {
     ySpeed = 0;
   }
 
-  // --- Приседание / вставание ---
-  const normalHeight = 1.5;
-  const crouchHeight = 1;
-  const targetHeight = crouching ? crouchHeight : normalHeight;
+  const newPlayer = new Player(pos, new Vec(xSpeed, ySpeed), size);
+  newPlayer.crouching = size.y <= crouchHeight;
 
-  // Нижняя граница игрока остаётся на месте
-  const bottom = pos.y + this.size.y;
-  const newPos = new Vec(pos.x, bottom - targetHeight);
-  const newSize = new Vec(this.size.x, targetHeight);
-
-  // Проверяем, можем ли изменить высоту
-  if (!state.level.touches(newPos, newSize, "wall")) {
-    pos = newPos;
-    this.size = newSize;
-  }
-
-  // --- Возвращаем новый объект игрока ---
-  const newPlayer = new Player(pos, new Vec(xSpeed, ySpeed));
-  newPlayer.size = this.size;
-  newPlayer.crouching = crouching && this.size.y === crouchHeight;
   return newPlayer;
 };
