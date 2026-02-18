@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./VictoryScreen.css";
 
-export default function VictoryScreen({ onClose }) {
-  const [show, setShow] = useState(true);
+export default function VictoryScreen({ show = false }) {
+  const [visible, setVisible] = useState(show);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(false);
-      if (onClose) onClose();
-    }, 5000); // экран автоматически исчезает через 5 секунд
+    const handleVictory = () => setVisible(true);
 
-    return () => clearTimeout(timer);
-  }, [onClose]);
+    window.addEventListener("victory", handleVictory);
+    return () => window.removeEventListener("victory", handleVictory);
+  }, []);
 
-  if (!show) return null;
+  if (!visible) return null;
 
   return (
     <div className="victory-screen">

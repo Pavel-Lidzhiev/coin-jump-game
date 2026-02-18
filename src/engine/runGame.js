@@ -23,7 +23,7 @@ export async function runGame(plans, Display, addCoin, hudRef, setPlayer) {
     }
   }
 
-  console.log("Ты победил!");
+  window.dispatchEvent(new CustomEvent("victory"));
 }
 
 window.CanvasDisplay = CanvasDisplay;

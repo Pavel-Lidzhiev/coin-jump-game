@@ -4,11 +4,11 @@ import GameRunner from "./game/GameRunner";
 import HUD from "./components/HUD/HUD";
 import VirtualGamePad from "./components/VirtualGamePad/VirtualGamePad";
 import PauseButton from "./components/PauseButton/PauseButton";
+import VictoryScreen from "./components/VictoryScreen/VictoryScreen";
 
 function App() {
   const addCoinRef = useRef(null);
   const hudRef = useRef(null);
-
   const [player, setPlayer] = useState(null);
 
   return (
@@ -23,6 +23,7 @@ function App() {
           />
         </div>
       </div>
+      <VictoryScreen />
       <VirtualGamePad />
       <PauseButton />
     </div>
