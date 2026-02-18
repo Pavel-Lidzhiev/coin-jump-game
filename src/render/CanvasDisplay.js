@@ -30,7 +30,13 @@ export class CanvasDisplay {
 
   resize() {
     const gamePad = document.querySelector(".virtual-gamepad");
-    const bottomOffset = gamePad ? gamePad.offsetHeight + 10 : 0;
+    let bottomOffset = 0;
+
+    if (gamePad) {
+      const styles = getComputedStyle(gamePad);
+      const bottom = parseInt(styles.bottom) || 0;
+      bottomOffset = gamePad.offsetHeight + bottom + 10;
+    }
 
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight - bottomOffset;

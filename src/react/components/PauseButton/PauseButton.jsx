@@ -29,13 +29,16 @@ export default function PauseButton() {
   }, []);
 
   return (
-    <div className="pause-container">
-      <div
-        className={`pause-btn ${paused ? "active" : ""}`}
-        onPointerDown={handlePress}
-      >
-        {paused ? "▶" : "⏸"}
+    <>
+      <div className="pause-container">
+        <div
+          className={`pause-btn ${paused ? "active" : ""}`}
+          onPointerDown={handlePress}
+        >
+          {paused ? "▶" : "⏸"}
+        </div>
       </div>
-    </div>
+      {paused && <div className="pause-overlay">ПАУЗА</div>}
+    </>
   );
 }
